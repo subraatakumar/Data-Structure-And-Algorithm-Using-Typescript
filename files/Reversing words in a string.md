@@ -15,21 +15,21 @@ The output string should:
 
 #### Example 1:
 **Input:**  
-`s = "the sky is blue"`  
+`s = "code challenges improve skills"`  
 **Output:**  
-`"blue is sky the"`
+`"skills improve challenges code"`
 
 #### Example 2:
 **Input:**  
-`s = "  hello world  "`  
+`s = "  practice makes perfect  "`  
 **Output:**  
-`"world hello"`
+`"perfect makes practice"`
 
 #### Example 3:
 **Input:**  
-`s = "a good   example"`  
+`s = "learning   never stops"`  
 **Output:**  
-`"example good a"`
+`"stops never learning"`
 
 ## Understanding the Problem
 
@@ -41,27 +41,69 @@ The problem essentially requires us to:
 
 ## Brute Force Approach
 
+### Approach 1: Using Built-in Methods
+
 A straightforward way to solve this problem is:
 1. Split the string by spaces (`split(" ")`).
 2. Filter out empty strings to remove extra spaces.
 3. Reverse the array of words.
 4. Join the words with a single space.
 
-### TypeScript Implementation:
+#### TypeScript Implementation:
 ```typescript
 function reverseWords(s: string): string {
     return s.trim().split(/\s+/).reverse().join(" ");
 }
 ```
-### Explanation:
+#### Explanation:
 1. `trim()` removes leading and trailing spaces.
 2. `split(/\s+/)` splits the string into words, handling multiple spaces.
 3. `reverse()` reverses the word order.
 4. `join(" ")` joins the words with a single space.
 
-### Time and Space Complexity:
+#### Time and Space Complexity:
 - **Time Complexity:** O(N) (trimming, splitting, reversing, and joining all take linear time).
 - **Space Complexity:** O(N) (storing the words in an array takes extra space).
+
+### Approach 2: Without Using Built-in Methods
+
+If built-in methods are restricted, we can manually extract words and reverse them.
+
+#### TypeScript Implementation:
+```typescript
+function reverseWordsManual(s: string): string {
+    let words: string[] = [];
+    let word = "";
+    let result = "";
+    
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] !== ' ') {
+            word += s[i];
+        } else if (word.length > 0) {
+            words.push(word);
+            word = "";
+        }
+    }
+    
+    if (word.length > 0) words.push(word);
+    
+    for (let i = words.length - 1; i >= 0; i--) {
+        result += words[i] + (i > 0 ? " " : "");
+    }
+    
+    return result;
+}
+```
+
+#### Explanation:
+1. Traverse the string character by character.
+2. Extract words manually without using `split()`.
+3. Store words in an array.
+4. Construct the final result by iterating from the end of the array.
+
+#### Time and Space Complexity:
+- **Time Complexity:** O(N) (one pass to extract words, one pass to build the result).
+- **Space Complexity:** O(N) (storing words in an array).
 
 ## Optimized Approach: In-Place String Manipulation
 
@@ -97,7 +139,7 @@ function reverseWordsOptimized(s: string): string {
 - **Space Complexity:** O(1) (only extra space for the result string).
 
 ## Conclusion
-- The brute force approach is simple but uses extra space.
+- The brute force approaches (with and without built-in methods) solve the problem efficiently but use extra space.
 - The optimized approach mimics in-place reversal and is more efficient in terms of space.
 - In coding interviews, showcasing multiple solutions and optimizing them step-by-step can demonstrate problem-solving skills effectively.
 
